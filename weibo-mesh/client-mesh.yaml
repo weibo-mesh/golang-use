@@ -4,24 +4,15 @@ motan-agent:
   mport: 8002
   log_dir: "./client-mesh-logs"
   snapshot_dir: "./snapshot"
-  registry: "vintage"
+  registry: "direct-registry"
   application: "client-mesh" #请求来源，用于在监控中标识请求的业务方，请各业务方务必修改成自己的标识，类似 APP_NAME
 
 #config of registries
 motan-registry:
-  test-vintage:
-    protocol: vintage
-    host: 10.210.130.47
-    port: 8090
-    registryRetryPeriod: 30000
-    registrySessionTimeout: 10000
-    requestTimeout: 5000
   direct-registry: # registry id 
     protocol: direct   # registry type. will get instance from extFactory.
-    host: 172.18.0.10 # direct server ip in single ip. if has host, address will disable.    
-#    port: 9981 # use agent port
+    host: 172.18.0.10 # direct server ip in single ip. if has host, address will disable.  
     port: 9100 # use server direct
-    # address: "10.210.21.1:8002,10.210.21.2:8002" # direct server in multi ip
 
 
 #conf of basic refers
@@ -50,5 +41,5 @@ metrics:
   period: 5
   graphite:
     - name: weibo-graphite
-      host: log.monitor.weibo.com
+      host: hostof.graphite
       port: 8333
