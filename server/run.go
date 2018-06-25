@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	motan "github.com/weibocom/motan-go"
 )
 
@@ -17,6 +16,5 @@ func main() {
 type HelloWorldService struct{}
 
 func (m *HelloWorldService) Hello(name string) string {
-	fmt.Printf("HelloWorldService hello:%s\n", name)
 	return "hello " + name
 }
