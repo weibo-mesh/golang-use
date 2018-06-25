@@ -1,4 +1,5 @@
 .DS_Store
 .idea
 ._*
-
+weibo-mesh/client
+weibo-mesh/server
