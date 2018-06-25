@@ -1,0 +1,38 @@
+# vim
+.*.sw[a-z]
+*.un~
+Session.vim
+
+# textmate
+*.tmproj
+*.tmproject
+tmtags
+
+# OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+*.swp
+pretty/zj
+zj*
+
+.idea/*
+# gdb
+*.gdb_history
+__*
+
+# motan-go
+*.pid
+snapshot*
+main/data
+main/logs
+main/serverlogs
+main/clientlogs
+main/agentlogs
+serverlogs
+clientlogs
+agentlogs
+main/magent*
+log/log.test*
+
