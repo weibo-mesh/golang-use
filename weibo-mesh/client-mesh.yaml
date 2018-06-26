@@ -1,18 +1,18 @@
 #config fo agent
 motan-agent:
   port: 9981
-  mport: 8002
+  mport: 8084
   log_dir: "./client-mesh-logs"
   snapshot_dir: "./snapshot"
-  registry: "direct-registry"
+  registry: "test-zk" # registry id
   application: "client-mesh" #请求来源，用于在监控中标识请求的业务方，请各业务方务必修改成自己的标识，类似 APP_NAME
 
 #config of registries
 motan-registry:
-  direct-registry: # registry id 
-    protocol: direct   # registry type. will get instance from extFactory.
-    host: 172.18.0.10 # direct server ip in single ip. if has host, address will disable.  
-    port: 9100 # use server direct
+  test-zk:
+    protocol: zookeeper
+    host: 172.18.0.09
+    port: 2181
 
 
 #conf of basic refers
@@ -20,7 +20,6 @@ motan-basicRefer:
   test-mesh-basicRefer: # basic refer id
     group: motan-demo-rpc # group name
     protocol: motan2 # rpc protocol
-    registry: "direct-registry" # registry id
     requestTimeout: 1000
     haStrategy: failover
     loadbalance: roundrobin
@@ -32,7 +31,7 @@ motan-basicRefer:
 motan-refer:
   hello-world:
     path: com.weibo.HelloWorldService
-    registry: direct-registry  
+    registry: "test-zk" # registry id
     basicRefer: test-mesh-basicRefer
     
 

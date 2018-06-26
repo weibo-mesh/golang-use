@@ -14,8 +14,10 @@ set -e
 BASE_DIR=$(dirname $(cd $(dirname "$0") && pwd -P)/$(basename "$0"))
 GO_SERVER_IMAGE=weibocom/weibo-mesh-demo-server:0.0.4
 GO_CLIENT_IMAGE=weibocom/weibo-mesh-demo-client:0.0.4
+ZK_IMAGE=zookeeper
 GO_SERVER_CONTAINER_NAME=gserver
 GO_CLIENT_CONTAINER_NAME=gclient
+ZK_CONTAINER_NAME=weibo-mesh-zk
 
 do_weibo_mesh_hello_world() {
     if [ -z "$(docker network ls --format {{.Name}} |grep -e '^weibo-mesh$')" ]; then
@@ -24,6 +26,13 @@ do_weibo_mesh_hello_world() {
 
     sleep 1
 
+    docker run --rm --name ${ZK_CONTAINER_NAME} \
+    --net weibo-mesh \
+    --ip 172.18.0.09 \
+    -d ${ZK_IMAGE}
+
+    sleep 2
+
     docker run --rm --name ${GO_SERVER_CONTAINER_NAME} \
     -v ${BASE_DIR}/server:/run/server \
     -v ${BASE_DIR}/weibo-mesh:/run/weibo-mesh \
@@ -31,7 +40,7 @@ do_weibo_mesh_hello_world() {
     -w /run/weibo-mesh/server \
     --net weibo-mesh \
     --ip 172.18.0.10 \
-    -p 9100:9100 \
+    --link ${ZK_CONTAINER_NAME}:zookeeper \
     ${GO_SERVER_IMAGE} /run/weibo-mesh/server_run.sh &
 
     sleep 1
@@ -45,11 +54,12 @@ do_weibo_mesh_hello_world() {
     --ip 172.18.0.20 \
     -p 80:9999 \
     --link=${GO_SERVER_CONTAINER_NAME} \
+    --link ${ZK_CONTAINER_NAME}:zookeeper \
     ${GO_CLIENT_IMAGE} /run/weibo-mesh/client_run.sh &
 }
 
 dc_clean() {
-    docker stop ${GO_CLIENT_CONTAINER_NAME} ${GO_SERVER_CONTAINER_NAME}
+    docker stop ${GO_CLIENT_CONTAINER_NAME} ${GO_SERVER_CONTAINER_NAME} ${ZK_CONTAINER_NAME}
     docker network rm weibo-mesh
 }
 

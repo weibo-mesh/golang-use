@@ -5,7 +5,6 @@ import (
 
 	motan "github.com/weibocom/motan-go"
 	"net/http"
-	// motancore "github.com/weibocom/motan-go/core"
 )
 
 func main() {
@@ -29,14 +28,4 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.Write([]byte(fmt.Sprintf("motan call success! reply:%s\n", reply)))
 	}
-
-	// async call
-	// args = "weibo-motan-gloang-async"
-	// result := mclient.Go("hello", []interface{}{args}, &reply, make(chan *motancore.AsyncResult, 1))
-	// res := <-result.Done
-	// if res.Error != nil {
-	// 	fmt.Printf("motan async call fail! err:%v\n", res.Error)
-	// } else {
-	// 	fmt.Printf("motan async call success! reply:%+v\n", reply)
-	// }
 }
