@@ -17,7 +17,7 @@ motan-basicService:
   test-basicService: # basic refer id
     group: motan-demo-rpc # group name
     protocol: motan2 # rpc protocol
-    registry: "test-zk" # registry id
+    # registry: "test-zk" # registry id
     filter: "accessLog" # filter registed in extFactory
     serialization: simple
     nodeType: server
